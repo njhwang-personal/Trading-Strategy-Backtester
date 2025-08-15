@@ -1,0 +1,17 @@
+.DS_Store
+__MACOSX/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Artifacts / data
+artifacts/
+data/
+*.csv
