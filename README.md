@@ -35,8 +35,10 @@ A Python backtesting engine for evaluating trading strategies with historical ma
     - JSON Data Handling - Standardize input/output formats for interoperability with APIs, dashboards, and analytic tools
     - Cloud Deployment (AWS/Azure/GCP) - Leverage cloud storage for historical data and cloud compute for parallel backtests
     - Frontend visualization dashboard (React + Javascript) - selecting strategies, run backtests, visualize equity curves, trades, and performance metrics
+    - Multiple strategies at once
+    - Multiple tickers at once for a full portfolio
 
-## Requirements
+## RequirementsS
 Install dependencies:
 ```bash
 pip install -r requirements.txt

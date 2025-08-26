@@ -8,7 +8,7 @@ def main():
     ticker = "NVDA"
     years = 5
     df = fetch_data(ticker, years)
-    df = trading_strategy(df, 1)
+    df = trading_strategy(df, 3)
     df, final_portfolio, metrics = simulation(df, years)
     
     Path("artifacts").mkdir(exist_ok=True)      # creates directory for outputs

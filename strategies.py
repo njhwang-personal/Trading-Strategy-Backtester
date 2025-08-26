@@ -3,6 +3,13 @@ from typing import Callable, Dict, Any
 import numpy as np
 import pandas as pd
 
+    #########################
+    # To do (8/15/2025):    #
+    # - parametrize         #
+    # - add tests           #
+    # - more strategies     #
+    # - github              #
+    #########################
 
 
 
@@ -59,8 +66,23 @@ def rsi_no_trend(data: pd.DataFrame, period: int = 14, buy_thresh: float = 30.0,
 
     ############ Exponential Moving Averages (EMA) crossover #########
     # used for short-term, fast-reacting strategies (day trading, momentum)
-    # EMA = (2/(period length +1)) * Price(t) + (1-(2/(period length +1)))*EMA(t-1)
+    # gives more weight to recent prices os it reacts faster to new changes
+    # EMA = Price(t) * alpha + EMA(t-1) * (1-alpha), alpha = how much weight today's prices get
+    # Buy/Hold when shortterm goes above longterm
     # 12 day and 26 day windows
+
+def ema_crossover(data: pd.DataFrame, fast: int = 12, slow: int = 26):
+    if "Close" not in data.columns:
+        raise ValueError("'Close' column not found")
+    if fast >= slow:
+        raise ValueError("ema_crossover: fast must be < slow")
+    data['EMA_12'] = data['Close'].ewm(span = fast, adjust=False).mean()
+    data['EMA_26'] = data['Close'].ewm(span = slow, adjust=False).mean()
+    data['Signal_EMA'] = 0
+    data.loc[data['EMA_12'] > data['EMA_26'], 'Signal_EMA'] = 1
+    data['Action'] = data['Signal_EMA'].diff()
+    data['ExecAction'] = data['Action'].shift(1).fillna(0).astype(int)
+    return data
 
     ############ Bollinger Band Breakout ####################
 
@@ -83,7 +105,9 @@ STRATEGIES: Dict[int, StrategySpec] = {
     1: StrategySpec("SMA Crossover", builder = sma_crossover,
                     defaults = {"fast": 50, "slow": 200}),
     2: StrategySpec("RSI Mean Reversion", builder = rsi_no_trend,
-                    defaults = {"period": 14, "buy_thresh": 30.0, "sell_thresh": 70.0})  
+                    defaults = {"period": 14, "buy_thresh": 30.0, "sell_thresh": 70.0}),
+    3: StrategySpec("EMA Crossover", builder = ema_crossover,
+                    defaults = {"fast": 12, "slow": 26})
 
     # Add more here later: 3=Bollinger, 4=MACD, 5=ATR stop, etc.
 }
