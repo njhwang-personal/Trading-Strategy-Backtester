@@ -7,6 +7,7 @@ A Python backtesting engine for evaluating trading strategies with historical ma
  - **Strategies**:  
     - SMA Crossover (50/200 day windows)
     - RSI Mean Reversion - no trend filter (14-day, 30/70 thresholds)
+    - Exponential Moving Averages (EMA) crossover (12/26 day windows)
  - **Performance Metrics**:
     - CAGR, Sharpe, Sortino, Calmar Ratio
     - Max Drawdown (amount & percent)
@@ -23,7 +24,6 @@ A Python backtesting engine for evaluating trading strategies with historical ma
 
 - **Strategies**:  
     - RSI Mean Reversion with trend filter
-    - Exponential Moving Averages (EMA) crossover
     - Bollinger Band Breakout
     - Momentum / Rate of Change
     - Moving Average Convergence Divergence
